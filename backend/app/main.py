@@ -1,10 +1,13 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File
+import shutil
+import os
 
-app = FastAPI(
-    title="AI Resume Analyzer API",
-    version="1.0.0",
-    description="Backend API for AI Resume Analyzer"
-)
+app = FastAPI(title="AI Resume Analyzer API")
+
+UPLOAD_DIR = "uploads"
+
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+
 
 @app.get("/")
 def home():
@@ -12,14 +15,16 @@ def home():
         "message": "Welcome to AI Resume Analyzer 🚀"
     }
 
-@app.get("/hello")
-def hello():
-    return {
-        "message": "Hello Vinay 👋"
-    }
 
-@app.get("/health")
-def health():
+@app.post("/upload-resume")
+async def upload_resume(file: UploadFile = File(...)):
+
+    file_path = os.path.join(UPLOAD_DIR, file.filename)
+
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
     return {
-        "status": "UP"
+        "filename": file.filename,
+        "message": "Resume uploaded successfully!"
     }
