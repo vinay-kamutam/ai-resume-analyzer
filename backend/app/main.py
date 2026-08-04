@@ -4,9 +4,19 @@ from app.routers.resume import router as resume_router
 from app.routers.ats import router as ats_router
 from app.routers.job_match import router as job_match_router
 from app.routers.ai import router as ai_router
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title="AI Resume Analyzer API"
+)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(resume_router)

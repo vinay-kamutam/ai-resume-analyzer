@@ -1,54 +1,70 @@
 def ats_prompt(resume_text: str):
 
     return f"""
-You are a Senior DevOps Hiring Manager with 15+ years of recruitment experience.
+You are an experienced ATS (Applicant Tracking System) evaluator.
 
-Evaluate this resume ONLY for a Junior DevOps Engineer role.
+Analyze the resume carefully.
 
-Scoring Criteria:
+Rules:
 
-Technical Skills = 30 points
+1. Return ONLY valid JSON.
+2. Never write explanations.
+3. Never wrap JSON inside markdown.
+4. Never use None.
+5. Never use True or False.
+6. Use only JSON.
+7. Every array must contain strings.
+8. If no values exist return [].
+9. ATS score MUST always be an integer between 0 and 100.
+10. Never return 0 unless the resume is completely empty.
 
-Projects = 30 points
+Evaluate these areas:
 
-Experience = 20 points
+- Resume Structure
+- Technical Skills
+- Experience
+- Projects
+- Education
+- Keywords
+- Readability
 
-Education = 10 points
+Scoring Guide:
 
-Certifications = 10 points
+90-100 = Excellent
 
-Total Score = 100
+80-89 = Very Good
 
-Return ONLY valid JSON.
+70-79 = Good
 
-Do NOT use markdown.
+60-69 = Average
 
-Do NOT include explanations outside JSON.
+Below 60 = Needs Improvement
 
-Return exactly this structure:
+Return ONLY this JSON:
 
 {{
-  "overall_score": 0,
+    "overall_score": 0,
 
-  "score_breakdown": {{
-      "technical_skills": 0,
-      "projects": 0,
-      "experience": 0,
-      "education": 0,
-      "certifications": 0
-  }},
+    "score_breakdown":
+    {{
+        "resume_structure": 0,
+        "technical_skills": 0,
+        "experience": 0,
+        "projects": 0,
+        "education": 0,
+        "keywords": 0,
+        "readability": 0
+    }},
 
-  "strengths": [],
+    "strengths": [],
 
-  "weaknesses": [],
+    "weaknesses": [],
 
-  "missing_skills": [],
+    "missing_skills": [],
 
-  "improvement_suggestions": [],
+    "improvement_suggestions": [],
 
-  "interview_probability": "",
-
-  "hiring_recommendation": ""
+    "hiring_recommendation": ""
 }}
 
 Resume:
