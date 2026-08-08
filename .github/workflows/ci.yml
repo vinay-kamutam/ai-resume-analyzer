@@ -12,8 +12,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      # -------------------------
+      # Backend
+      # -------------------------
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -25,6 +30,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
+      # -------------------------
+      # Frontend
+      # -------------------------
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -40,3 +49,13 @@ jobs:
       - name: Build Frontend
         working-directory: frontend
         run: npm run build
+
+      # -------------------------
+      # Docker
+      # -------------------------
+
+      - name: Build Backend Docker Image
+        run: docker build -t ai-resume-backend ./backend
+
+      - name: Build Frontend Docker Image
+        run: docker build -t ai-resume-frontend ./frontend
